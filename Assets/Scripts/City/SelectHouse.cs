@@ -48,6 +48,9 @@ public class SelectHouse : MonoBehaviour, IPointerEnterHandler {
                 AudioClip sfx;
                 sfx = Resources.Load("Sounds/DoorOpened") as AudioClip;
                 SoundManager.PlaySFXRandomized(sfx);
+
+                //Game.Instance.LosePlayed = false;
+                Game.Instance.AlarmPlayed = false;
             }
 
             PlayerManager.Instance.houseSelected = house;

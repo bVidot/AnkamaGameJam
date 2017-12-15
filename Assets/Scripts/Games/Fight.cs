@@ -59,9 +59,6 @@ public class Fight : MonoBehaviour {
     {
         Game.Instance.saleState = Game.SaleState.Fight;
         initFightCoroutine = StartCoroutine(InitFight(2f, 5f));
-
-        //ADRIEN
-        AlarmPlayed = false;
     }
 
     IEnumerator InitFight(float delay, float fightDuration)
@@ -70,7 +67,7 @@ public class Fight : MonoBehaviour {
         Game.Instance.door.SetTrigger("StartWarning");
 
         // ADRIEN
-        if (!AlarmPlayed)
+        if (!Game.Instance.AlarmPlayed && !AlarmPlayed)
         {
             AlarmPlayed = true;
             AudioClip sfx;
@@ -100,6 +97,9 @@ public class Fight : MonoBehaviour {
         yield return new WaitForSeconds(fightDuration);
         canFight = false;
         CheckFightJauge();
+
+        //ADRIEN
+        AlarmPlayed = false;
     }
 
     private void CheckFightJauge()

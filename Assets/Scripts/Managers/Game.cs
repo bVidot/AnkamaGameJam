@@ -98,9 +98,6 @@ public class Game : MonoBehaviour {
         guitarHeroGame.ClearAllNotes();
         gameUi.SwitchCanvas(true);
         fightGame.StartFightGame();
-
-        //ADRIEN
-        LosePlayed = false;
     }
 
     public void SwitchFightToGuitarHero()
@@ -134,7 +131,8 @@ public class Game : MonoBehaviour {
         SoundManager.PlaySFX(sfx);
     }
 
-    private bool LosePlayed = false;
+    public bool LosePlayed = false;
+    public bool AlarmPlayed = false;
 
     public void PlayerLose()
     {
@@ -142,6 +140,7 @@ public class Game : MonoBehaviour {
         if (!LosePlayed)
         {
             LosePlayed = true;
+            AlarmPlayed = true;
             AudioClip sfx;
             sfx = Resources.Load("Sounds/DoorClosed") as AudioClip;
             SoundManager.PlaySFX(sfx);
