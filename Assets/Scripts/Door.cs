@@ -8,7 +8,6 @@ public class Door : MonoBehaviour {
     public int currentDoorClosing = 0;
 
     Coroutine moveDoorCoroutine;
-    Coroutine shakeDoor;
 
     private int desiredPosition = 0;
 
@@ -47,14 +46,19 @@ public class Door : MonoBehaviour {
             if (open)
                 currentDoorClosing = Mathf.Max(0, currentDoorClosing - 1);
             else
-                currentDoorClosing = Mathf.Min(currentDoorClosing + 1, 30);
+                currentDoorClosing = Mathf.Min(currentDoorClosing + 1, Game.Instance.maxImpatience);
 
             animator.SetFloat("Closing", currentDoorClosing);
 
         }
         moveDoorCoroutine = null;
         if (currentDoorClosing >= 30)
-            Game.Instance.StartFightGame();
+            Game.Instance.SwitchGuitarHeroToFight();
     }
-    
+
+    public void SetTrigger(string trigger)
+    {
+        animator.SetTrigger(trigger);
+    }
+
 }

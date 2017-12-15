@@ -20,10 +20,10 @@ public class Note : MonoBehaviour {
         if(gameObject != null)
         {
             float posY = transform.position.y;
-            posY += Game.Instance.noteSpeed * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, posY, -9);
+            posY += Game.Instance.guitarHeroGame.noteSpeed * Time.deltaTime;
+            transform.position = new Vector3(transform.position.x, posY, 0);
 
-            if (transform.position.y >= 11f)
+            if (transform.position.y >= 6f)
             {
                 Game.Instance.impatience += 3;
                 Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);
@@ -37,21 +37,20 @@ public class Note : MonoBehaviour {
         if(!clear)
         {
             if (slot == Slot.Slot1)
-                Game.Instance.noteSlot1.Remove(transform);
+                Game.Instance.guitarHeroGame.noteSlot1.Remove(transform);
             else if (slot == Slot.Slot2)
-                Game.Instance.noteSlot2.Remove(transform);
+                Game.Instance.guitarHeroGame.noteSlot2.Remove(transform);
             else if (slot == Slot.Slot3)
-                Game.Instance.noteSlot3.Remove(transform);
+                Game.Instance.guitarHeroGame.noteSlot3.Remove(transform);
             else if (slot == Slot.Slot4)
-                Game.Instance.noteSlot4.Remove(transform);
+                Game.Instance.guitarHeroGame.noteSlot4.Remove(transform);
         }
-        
         Destroy(this.gameObject);
     }
 
     private void OnDestroy()
     {
-        if (Game.Instance.canSale)
-            Game.Instance.StartCoroutine(Game.Instance.SpawnNote((int)slot, Game.Instance.delayBetweenNote + Random.Range(-1f, 1f)));
+        if (Game.Instance.guitarHeroGame.canSale && Game.Instance.saleState == Game.SaleState.Talk)
+            Game.Instance.StartCoroutine(Game.Instance.guitarHeroGame.SpawnNote((int)slot, Game.Instance.guitarHeroGame.delayBetweenNote + Random.Range(-1f, 1f)));
     }
 }

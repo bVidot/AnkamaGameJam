@@ -19,18 +19,8 @@ public class Player : MonoBehaviour {
 		
 	}
 
-    public void Interrupt()
+    public void SetTrigger(string trigger)
     {
-        animator.SetTrigger("StartInterrupt");
-    }
-
-    public void Fight()
-    {
-        animator.SetTrigger("StartFight");
-    }
-
-    public void Sale()
-    {
-        animator.SetTrigger("StartIdle");
+        animator.SetTrigger(trigger);
     }
 }
