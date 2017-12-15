@@ -125,6 +125,11 @@ public class Game : MonoBehaviour {
     {
         PlayerManager.Instance.playerCash += currentPlayerCash;
         currentPlayerCash = 0;
+
+        // ADRIEN
+        AudioClip sfx;
+        sfx = Resources.Load("Sounds/Victory") as AudioClip;
+        SoundManager.PlaySFX(sfx);
     }
 
     public void PlayerLose()

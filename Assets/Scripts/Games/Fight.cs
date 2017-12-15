@@ -16,6 +16,9 @@ public class Fight : MonoBehaviour {
     public int minimumFightJauge = 0;
     public int increaseValue = 0;
 
+    private bool FightPlayed = false;
+    private bool LosePlayed = false;
+
     // Use this for initialization
     void Start () {
 
@@ -34,6 +37,15 @@ public class Fight : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (!FightPlayed)
+                {
+                    FightPlayed = true;
+                    // ADRIEN
+                    AudioClip sfx;
+                    sfx = Resources.Load("Sounds/Fight") as AudioClip;
+                    SoundManager.PlaySFX(sfx);
+                }
+
                 Game.Instance.player.SetTrigger("StartInterrupt");
                 interruptClose = true;
                 StopCoroutine(initFightCoroutine);
@@ -52,6 +64,14 @@ public class Fight : MonoBehaviour {
     {
         canInterruptClose = true;
         Game.Instance.door.SetTrigger("StartWarning");
+
+        // ADRIEN
+        AudioClip sfx;
+        sfx = Resources.Load("Sounds/Alarm") as AudioClip;
+        SoundManager.PlaySFX(sfx);
+        FightPlayed = false;
+        LosePlayed = false;
+
         yield return new WaitForSeconds(interruptDuration);
         canInterruptClose = false;
         if (!interruptClose)
@@ -86,6 +106,15 @@ public class Fight : MonoBehaviour {
         }
         else
         {
+            if (!LosePlayed)
+            {
+                LosePlayed = true;
+                // ADRIEN
+                AudioClip sfx;
+                sfx = Resources.Load("Sounds/WhooshCrac") as AudioClip;
+                SoundManager.PlaySFX(sfx);
+            }
+
             //LOSE
             Debug.Log("Lose");
             Game.Instance.PlayerLose();

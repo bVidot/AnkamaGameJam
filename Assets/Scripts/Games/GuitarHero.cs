@@ -124,25 +124,35 @@ public class GuitarHero : MonoBehaviour {
                 break;
         }
 
+        AudioClip sfx;
+
         if (distance <= perfectDistance)
         {
             Game.Instance.impatience += 0;
             Game.Instance.currentPlayerCash += 3;
+            sfx = Resources.Load("Sounds/Notes/Parfait0" + slot) as AudioClip;
+            SoundManager.PlaySFXRandomized(sfx);
         }
         else if (distance <= goodDistance)
         {
             Game.Instance.impatience += 1;
             Game.Instance.currentPlayerCash += 2;
+            sfx = Resources.Load("Sounds/Notes/Bien0" + slot) as AudioClip;
+            SoundManager.PlaySFXRandomized(sfx);
         }
         else if (distance <= mediumDistance)
         {
             Game.Instance.impatience += 2;
             Game.Instance.currentPlayerCash += 1;
+            sfx = Resources.Load("Sounds/Notes/OK0" + slot) as AudioClip;
+            SoundManager.PlaySFXRandomized(sfx);
         }
         else
         {
             Game.Instance.impatience += 3;
             Game.Instance.currentPlayerCash += 0;
+            sfx = Resources.Load("Sounds/Notes/Rate0" + slot) as AudioClip;
+            SoundManager.PlaySFXRandomized(sfx);
         }
 
         Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);

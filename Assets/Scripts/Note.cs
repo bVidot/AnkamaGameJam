@@ -25,6 +25,11 @@ public class Note : MonoBehaviour {
 
             if (transform.position.y >= 6f)
             {
+                AudioClip sfx;
+                // ADRIEN
+                sfx = Resources.Load("Sounds/Notes/Rate0" + (int)slot) as AudioClip;
+                SoundManager.PlaySFXRandomized(sfx);
+
                 Game.Instance.impatience += 3;
                 Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);
                 DeleteNote();
