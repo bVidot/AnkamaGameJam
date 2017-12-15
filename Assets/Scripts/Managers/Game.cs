@@ -44,6 +44,9 @@ public class Game : MonoBehaviour {
     public enum SaleState { Talk, Fight};
     public SaleState saleState;
 
+    public GameObject door;
+    public GameObject player;
+
     public int impatience = 0;
 
     [Header("Guitar Hero")]
@@ -90,10 +93,11 @@ public class Game : MonoBehaviour {
             {
                 fightJauge += 2;
             }
-        }else if(saleState == SaleState.Fight && canInterruptClose)
+        }else if(saleState == SaleState.Fight && canInterruptClose && !interruptClose)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                player.GetComponent<Player>().Interrupt();
                 interruptClose = true;
             }
         }
@@ -157,7 +161,7 @@ public class Game : MonoBehaviour {
     {
         canFight = false;
         canInterruptClose = false;
-
+        player.GetComponent<Player>().Sale();
         saleState = SaleState.Talk;
         saleCoroutine = StartCoroutine(InitSale(2f));
     }
@@ -285,7 +289,7 @@ public class Game : MonoBehaviour {
         canSale = false;
         ClearAllNotes();
         saleState = SaleState.Fight;
-        fightCoroutine = StartCoroutine(InitFight(2f, 2f));
+        fightCoroutine = StartCoroutine(InitFight(2f, 5f));
     }
 
     IEnumerator InitFight(float delay, float fightDuration)
@@ -302,6 +306,7 @@ public class Game : MonoBehaviour {
         interruptClose = false;
         yield return new WaitForSeconds(delay - interruptDuration);
         canFight = true;
+        player.GetComponent<Player>().Fight();
         yield return new WaitForSeconds(fightDuration);
         canFight = false;
         CheckFightJauge();
