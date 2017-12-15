@@ -1,16 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class UiManager : MonoBehaviour {
+public class UiManager : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private static UiManager _instance = null;
+
+    public static UiManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<UiManager>();
+
+                if (_instance == null)
+
+                {
+                    GameObject go = new GameObject();
+                    go.name = "UiManager";
+                    _instance = go.AddComponent<UiManager>();
+                }
+
+            }
+
+            return _instance;
+
+        }
+    }
+
+    private void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    public void LoadTargetScene(int index, float delay=0f)
+    {
+        StartCoroutine(LoadWithDelay(index, delay));
+    }
+
+    IEnumerator LoadWithDelay(int index, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadSceneAsync(index);
+    }
+
 }

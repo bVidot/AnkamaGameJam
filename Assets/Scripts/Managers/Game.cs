@@ -42,13 +42,15 @@ public class Game : MonoBehaviour {
         }
     }
 
-    public enum SaleState { Talk, Fight};
+    public enum SaleState { Talk, Fight, End};
     public SaleState saleState;
 
     public House currentHouse;
     public DoorType doorType;
     public Door door;
     public Player player;
+
+    public Animator contractAnimator;
 
     public GuitarHero guitarHeroGame;
     public Fight fightGame;
@@ -83,13 +85,17 @@ public class Game : MonoBehaviour {
                 doorType = Resources.Load("Doors/PoorDoor") as DoorType;
                 break;
             case House.DoorType.Level2:
+                doorType = Resources.Load("Doors/BasicDoor") as DoorType;
                 break;
             case House.DoorType.Level3:
+                doorType = Resources.Load("Doors/RichDoor") as DoorType;
                 break;
         }
+        clientCash = currentHouse.budget;
         fightGame.minimumFightJauge = doorType.strenght;
         fightGame.increaseValue = PlayerManager.Instance.currentShoes.resistance;
 
+        saleState = SaleState.Talk;
         guitarHeroGame.StartSale();
     }
 
@@ -114,21 +120,36 @@ public class Game : MonoBehaviour {
     {
         impatienceLimit += maxImpatience * 33 /100;
 
-        if (impatienceLimit >= 30)
+        if (impatienceLimit >= maxImpatience)
             PlayerLose();
 
         impatience = impatienceLimit;
     }
 
+    public void IncreaseCash(int amount)
+    {
+        currentPlayerCash += amount;
+        if (currentPlayerCash >= clientCash)
+            PlayerWin();
+    }
+
     public void PlayerWin()
     {
+        StopAllCoroutines();
+        guitarHeroGame.ClearAllNotes();
+        gameUi.Hide();
+        gameUi.Victory();
+        saleState = SaleState.End;
+        StopAllCoroutines();
         PlayerManager.Instance.playerCash += currentPlayerCash;
         currentPlayerCash = 0;
-
         // ADRIEN
         AudioClip sfx;
         sfx = Resources.Load("Sounds/Victory") as AudioClip;
         SoundManager.PlaySFX(sfx);
+        door.SetTrigger("DoorLose");
+        Invoke("Contract", 1f);
+        UiManager.Instance.LoadTargetScene(1, 3f);
     }
 
     public bool LosePlayed = false;
@@ -145,11 +166,21 @@ public class Game : MonoBehaviour {
             sfx = Resources.Load("Sounds/DoorClosed") as AudioClip;
             SoundManager.PlaySFX(sfx);
         }
-
+        
+        StopAllCoroutines();
+        gameUi.Hide();
+        gameUi.Defeat();
         door.SetTrigger("DoorWin");
         player.SetTrigger("Lose", 0.3f);
         PlayerManager.Instance.playerCash += currentPlayerCash;
         currentPlayerCash = 0;
         currentHouse.nbOfFail++;
+        UiManager.Instance.LoadTargetScene(1, 3f);
     }
+
+    void Contract()
+    {
+        contractAnimator.SetFloat("Speed", 1f);
+    }
+
 }

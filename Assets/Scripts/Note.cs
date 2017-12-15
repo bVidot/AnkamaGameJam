@@ -23,7 +23,7 @@ public class Note : MonoBehaviour {
             posY += Game.Instance.guitarHeroGame.noteSpeed * Time.deltaTime;
             transform.position = new Vector3(transform.position.x, posY, 0);
 
-            if (transform.position.y >= 6f)
+            if (transform.position.y >= 3.9f)
             {
                 AudioClip sfx;
                 // ADRIEN
@@ -31,7 +31,7 @@ public class Note : MonoBehaviour {
                 SoundManager.PlaySFXRandomized(sfx);
 
                 Game.Instance.impatience += 3;
-                Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);
+                Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, Game.Instance.maxImpatience);
                 DeleteNote();
             }
         }    

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nbOfFail: 0
   doorType: 0
-  impatience: 30
+  impatience: 100
+  budget: 30
   isLocked: 0

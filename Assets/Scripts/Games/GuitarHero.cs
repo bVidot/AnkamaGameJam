@@ -25,10 +25,15 @@ public class GuitarHero : MonoBehaviour {
 
     public float noteSpeed = 1f;
 
+    public Sprite spriteSlot1;
+    public Sprite spriteSlot2;
+    public Sprite spriteSlot3;
+    public Sprite spriteSlot4;
+
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -78,7 +83,7 @@ public class GuitarHero : MonoBehaviour {
                     noteSlot4[0].GetComponent<Note>().DeleteNote();
                 }
             }
-            Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);
+            Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, Game.Instance.maxImpatience);
         }
 
     }
@@ -129,33 +134,32 @@ public class GuitarHero : MonoBehaviour {
         if (distance <= perfectDistance)
         {
             Game.Instance.impatience += 0;
-            Game.Instance.currentPlayerCash += 3;
             sfx = Resources.Load("Sounds/Notes/Parfait0" + slot) as AudioClip;
             SoundManager.PlaySFXRandomized(sfx);
+            Game.Instance.IncreaseCash(3);
         }
         else if (distance <= goodDistance)
         {
             Game.Instance.impatience += 1;
-            Game.Instance.currentPlayerCash += 2;
             sfx = Resources.Load("Sounds/Notes/Bien0" + slot) as AudioClip;
             SoundManager.PlaySFXRandomized(sfx);
+            Game.Instance.IncreaseCash(2);
         }
         else if (distance <= mediumDistance)
         {
             Game.Instance.impatience += 2;
-            Game.Instance.currentPlayerCash += 1;
             sfx = Resources.Load("Sounds/Notes/OK0" + slot) as AudioClip;
             SoundManager.PlaySFXRandomized(sfx);
+            Game.Instance.IncreaseCash(1);
         }
         else
         {
             Game.Instance.impatience += 3;
-            Game.Instance.currentPlayerCash += 0;
             sfx = Resources.Load("Sounds/Notes/Rate0" + slot) as AudioClip;
             SoundManager.PlaySFXRandomized(sfx);
         }
 
-        Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, 30);
+        Game.Instance.impatience = Mathf.Min(Game.Instance.impatience, Game.Instance.maxImpatience);
 
     }
 
@@ -203,23 +207,27 @@ public class GuitarHero : MonoBehaviour {
         switch (slot)
         {
             case 1:
-                note = Instantiate(notePrefab, new Vector3(slot1.position.x, -4, 0), Quaternion.identity) as Transform;
+                note = Instantiate(notePrefab, new Vector3(slot1.position.x, -3, 0), Quaternion.identity) as Transform;
                 note.GetComponent<Note>().slot = Note.Slot.Slot1;
+                note.GetComponent<SpriteRenderer>().sprite = spriteSlot1;
                 noteSlot1.Add(note);
                 break;
             case 2:
-                note = Instantiate(notePrefab, new Vector3(slot2.position.x, -4, 0), Quaternion.identity);
+                note = Instantiate(notePrefab, new Vector3(slot2.position.x, -3, 0), Quaternion.identity);
                 note.GetComponent<Note>().slot = Note.Slot.Slot2;
+                note.GetComponent<SpriteRenderer>().sprite = spriteSlot2;
                 noteSlot2.Add(note);
                 break;
             case 3:
-                note = Instantiate(notePrefab, new Vector3(slot3.position.x, -4, 0), Quaternion.identity);
+                note = Instantiate(notePrefab, new Vector3(slot3.position.x, -3, 0), Quaternion.identity);
                 note.GetComponent<Note>().slot = Note.Slot.Slot3;
+                note.GetComponent<SpriteRenderer>().sprite = spriteSlot3;
                 noteSlot3.Add(note);
                 break;
             case 4:
-                note = Instantiate(notePrefab, new Vector3(slot4.position.x, -4, 0), Quaternion.identity);
+                note = Instantiate(notePrefab, new Vector3(slot4.position.x, -3, 0), Quaternion.identity);
                 note.GetComponent<Note>().slot = Note.Slot.Slot4;
+                note.GetComponent<SpriteRenderer>().sprite = spriteSlot4;
                 noteSlot4.Add(note);
                 break;
         }

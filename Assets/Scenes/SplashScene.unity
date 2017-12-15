@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 232064847}
   - component: {fileID: 232064846}
   - component: {fileID: 232064848}
+  - component: {fileID: 232064849}
   m_Layer: 0
   m_Name: DontDestroy
   m_TagString: Untagged
@@ -143,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCash: 0
   currentShoes: {fileID: 0}
+  houseSelected: {fileID: 0}
 --- !u!4 &232064847
 Transform:
   m_ObjectHideFlags: 0
@@ -165,6 +167,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ff3b03e1bd6fe94ba00e7d357449929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &232064849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 232064845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103152d7cd0df6348aad2edb2b505f7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &989369270
