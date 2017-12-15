@@ -98,7 +98,9 @@ public class Game : MonoBehaviour {
         guitarHeroGame.ClearAllNotes();
         gameUi.SwitchCanvas(true);
         fightGame.StartFightGame();
-        
+
+        //ADRIEN
+        LosePlayed = false;
     }
 
     public void SwitchFightToGuitarHero()
@@ -132,8 +134,19 @@ public class Game : MonoBehaviour {
         SoundManager.PlaySFX(sfx);
     }
 
+    private bool LosePlayed = false;
+
     public void PlayerLose()
     {
+        // ADRIEN
+        if (!LosePlayed)
+        {
+            LosePlayed = true;
+            AudioClip sfx;
+            sfx = Resources.Load("Sounds/DoorClosed") as AudioClip;
+            SoundManager.PlaySFX(sfx);
+        }
+
         door.SetTrigger("DoorWin");
         player.SetTrigger("Lose", 0.3f);
         PlayerManager.Instance.playerCash += currentPlayerCash;

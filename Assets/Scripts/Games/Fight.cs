@@ -18,6 +18,7 @@ public class Fight : MonoBehaviour {
 
     private bool FightPlayed = false;
     private bool LosePlayed = false;
+    private bool AlarmPlayed = false;
 
     // Use this for initialization
     void Start () {
@@ -58,6 +59,9 @@ public class Fight : MonoBehaviour {
     {
         Game.Instance.saleState = Game.SaleState.Fight;
         initFightCoroutine = StartCoroutine(InitFight(2f, 5f));
+
+        //ADRIEN
+        AlarmPlayed = false;
     }
 
     IEnumerator InitFight(float delay, float fightDuration)
@@ -66,11 +70,15 @@ public class Fight : MonoBehaviour {
         Game.Instance.door.SetTrigger("StartWarning");
 
         // ADRIEN
-        AudioClip sfx;
-        sfx = Resources.Load("Sounds/Alarm") as AudioClip;
-        SoundManager.PlaySFX(sfx);
-        FightPlayed = false;
-        LosePlayed = false;
+        if (!AlarmPlayed)
+        {
+            AlarmPlayed = true;
+            AudioClip sfx;
+            sfx = Resources.Load("Sounds/Alarm") as AudioClip;
+            SoundManager.PlaySFX(sfx);
+            FightPlayed = false;
+            LosePlayed = false;
+        }
 
         yield return new WaitForSeconds(interruptDuration);
         canInterruptClose = false;
@@ -111,7 +119,7 @@ public class Fight : MonoBehaviour {
                 LosePlayed = true;
                 // ADRIEN
                 AudioClip sfx;
-                sfx = Resources.Load("Sounds/WhooshCrac") as AudioClip;
+                sfx = Resources.Load("Sounds/Crac") as AudioClip;
                 SoundManager.PlaySFX(sfx);
             }
 
