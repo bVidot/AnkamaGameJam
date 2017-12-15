@@ -69,6 +69,8 @@ public class Fight : MonoBehaviour {
         // ADRIEN
         if (!Game.Instance.AlarmPlayed && !AlarmPlayed)
         {
+            SoundManager.StopSFX(Game.Instance.conv);
+
             AlarmPlayed = true;
             AudioClip sfx;
             sfx = Resources.Load("Sounds/Alarm") as AudioClip;

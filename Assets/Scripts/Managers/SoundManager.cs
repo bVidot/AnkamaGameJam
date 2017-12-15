@@ -184,6 +184,23 @@ public class SoundManager : MonoBehaviour {
         soundManager.StartCoroutine(soundManager.RemoveSFXSource(source, duration));
     }
 
+    //ADRIEN
+    public static void StopSFX(AudioClip sfxClip)
+    {
+        SoundManager soundManager = GetInstance();
+        if (soundManager.sfxSources != null)
+        {
+            foreach (AudioSource source in soundManager.sfxSources)
+            {
+                if (source.clip == sfxClip)
+                {
+                    source.Stop();
+                    soundManager.StartCoroutine(soundManager.RemoveSFXSource(source));
+                }
+            }
+        }
+    }
+
     public static void DisableSoundImmediate()
     {
         SoundManager soundManager = GetInstance();

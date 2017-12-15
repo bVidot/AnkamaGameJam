@@ -64,9 +64,10 @@ public class Game : MonoBehaviour {
     public int clientCash = 100;
     public int currentPlayerCash = 0;
    
+    public AudioClip conv;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         currentHouse = PlayerManager.Instance.houseSelected;
         door = FindObjectOfType<Door>();
         player = FindObjectOfType<Player>();
@@ -79,7 +80,10 @@ public class Game : MonoBehaviour {
         maxImpatience = currentHouse.impatience;
         impatience = 0;
 
-        switch(currentHouse.doorType)
+        //ADRIEN
+        conv = Resources.Load("Sounds/Conversation" + Random.Range(1, 3)) as AudioClip;
+
+        switch (currentHouse.doorType)
         {
             case House.DoorType.Level1:
                 doorType = Resources.Load("Doors/PoorDoor") as DoorType;
@@ -144,6 +148,7 @@ public class Game : MonoBehaviour {
         PlayerManager.Instance.playerCash += currentPlayerCash;
         currentPlayerCash = 0;
         // ADRIEN
+        SoundManager.StopSFX(conv);
         AudioClip sfx;
         sfx = Resources.Load("Sounds/Victory") as AudioClip;
         SoundManager.PlaySFX(sfx);
@@ -152,6 +157,7 @@ public class Game : MonoBehaviour {
         UiManager.Instance.LoadTargetScene(1, 3f);
     }
 
+    //ADRIEN
     public bool LosePlayed = false;
     public bool AlarmPlayed = false;
 
@@ -160,6 +166,7 @@ public class Game : MonoBehaviour {
         // ADRIEN
         if (!LosePlayed)
         {
+           SoundManager.StopSFX(conv);
             LosePlayed = true;
             AlarmPlayed = true;
             AudioClip sfx;

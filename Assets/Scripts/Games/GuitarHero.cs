@@ -32,7 +32,7 @@ public class GuitarHero : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        
     }
 	
 	// Update is called once per frame
@@ -95,6 +95,12 @@ public class GuitarHero : MonoBehaviour {
 
     IEnumerator InitSale(float delay)
     {
+        //ADRIEN
+        if (!Game.Instance.LosePlayed)
+        {
+            SoundManager.PlaySFXRandomized(Game.Instance.conv);
+        }
+
         float delaySlot1 = Random.Range(0f, 1f);
         float delaySlot2 = Random.Range(0f, 1f);
         float delaySlot3 = Random.Range(0f, 1f);
