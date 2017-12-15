@@ -19,8 +19,15 @@ public class Player : MonoBehaviour {
 		
 	}
 
-    public void SetTrigger(string trigger)
+    public void SetTrigger(string trigger, float delay = 0f)
     {
+        StartCoroutine(Delay(trigger, delay));
+    }
+
+    IEnumerator Delay(string trigger, float delay)
+    {
+        yield return new WaitForSeconds(delay);
         animator.SetTrigger(trigger);
     }
+    
 }

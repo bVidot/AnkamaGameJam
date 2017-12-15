@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
 
@@ -52,11 +53,15 @@ public class Game : MonoBehaviour {
     public GuitarHero guitarHeroGame;
     public Fight fightGame;
 
+    public GameUi gameUi;
+    
     public int maxImpatience = 0;
     public int impatience = 0;
+    public int impatienceLimit = 0;
 
     public int clientCash = 100;
     public int currentPlayerCash = 0;
+   
 
 	// Use this for initialization
 	void Start () {
@@ -65,6 +70,8 @@ public class Game : MonoBehaviour {
         player = FindObjectOfType<Player>();
         guitarHeroGame =  GetComponent<GuitarHero>();
         fightGame = GetComponent<Fight>();
+
+        gameUi = FindObjectOfType<GameUi>();
 
         currentPlayerCash = 0;
         maxImpatience = currentHouse.impatience;
@@ -89,21 +96,29 @@ public class Game : MonoBehaviour {
     public void SwitchGuitarHeroToFight()
     {
         guitarHeroGame.ClearAllNotes();
+        gameUi.SwitchCanvas(true);
         fightGame.StartFightGame();
+        
     }
 
     public void SwitchFightToGuitarHero()
     {
-        player.SetTrigger("StartIdle");
         door.SetTrigger("EndFight");
+        player.SetTrigger("Win");
         saleState = Game.SaleState.Talk;
         ResetImpatience();
+        gameUi.SwitchCanvas(false);
         guitarHeroGame.StartSale();
     }
 
     public void ResetImpatience()
     {
-        impatience = 10;
+        impatienceLimit += maxImpatience * 33 /100;
+
+        if (impatienceLimit >= 30)
+            PlayerLose();
+
+        impatience = impatienceLimit;
     }
 
     public void PlayerWin()
@@ -115,7 +130,7 @@ public class Game : MonoBehaviour {
     public void PlayerLose()
     {
         door.SetTrigger("DoorWin");
-        player.SetTrigger("StartIdle");
+        player.SetTrigger("Lose", 0.3f);
         PlayerManager.Instance.playerCash += currentPlayerCash;
         currentPlayerCash = 0;
         currentHouse.nbOfFail++;

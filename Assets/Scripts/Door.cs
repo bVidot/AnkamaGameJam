@@ -11,6 +11,8 @@ public class Door : MonoBehaviour {
 
     private int desiredPosition = 0;
 
+    private int currentPosition = 0;
+
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
@@ -18,17 +20,18 @@ public class Door : MonoBehaviour {
 
     void Update()
     {
-        if(desiredPosition < Game.Instance.impatience)
+        currentPosition = Mathf.Max(1,Game.Instance.impatience * 30 / Game.Instance.maxImpatience);
+        if (desiredPosition < currentPosition)
         {
-            desiredPosition = Game.Instance.impatience;
+            desiredPosition = currentPosition;
             if (moveDoorCoroutine != null)
                 StopCoroutine(moveDoorCoroutine);
 
             moveDoorCoroutine = StartCoroutine(MoveDoor(desiredPosition, false));
         }
-        else if(desiredPosition > Game.Instance.impatience)
+        else if(desiredPosition > currentPosition)
         {
-            desiredPosition = Game.Instance.impatience;
+            desiredPosition = currentPosition;
             if (moveDoorCoroutine != null)
                 StopCoroutine(moveDoorCoroutine);
 
@@ -42,11 +45,11 @@ public class Door : MonoBehaviour {
   
         while (currentDoorClosing != desiredPosition)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.04f);
             if (open)
                 currentDoorClosing = Mathf.Max(0, currentDoorClosing - 1);
             else
-                currentDoorClosing = Mathf.Min(currentDoorClosing + 1, Game.Instance.maxImpatience);
+                currentDoorClosing = Mathf.Min(currentDoorClosing + 1, 30);
 
             animator.SetFloat("Closing", currentDoorClosing);
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fight : MonoBehaviour {
 
     [Header("Fight")]
+    Coroutine initFightCoroutine;
     Coroutine fightCoroutine;
     public float interruptDuration = 1f;
     public bool canInterruptClose = false;
@@ -35,6 +36,8 @@ public class Fight : MonoBehaviour {
             {
                 Game.Instance.player.SetTrigger("StartInterrupt");
                 interruptClose = true;
+                StopCoroutine(initFightCoroutine);
+                fightCoroutine = StartCoroutine(LaunchFight(5f));
             }
         }
     }
@@ -42,23 +45,27 @@ public class Fight : MonoBehaviour {
     public void StartFightGame()
     {
         Game.Instance.saleState = Game.SaleState.Fight;
-        fightCoroutine = StartCoroutine(InitFight(2f, 5f));
+        initFightCoroutine = StartCoroutine(InitFight(2f, 5f));
     }
 
     IEnumerator InitFight(float delay, float fightDuration)
     {
         canInterruptClose = true;
+        Game.Instance.door.SetTrigger("StartWarning");
         yield return new WaitForSeconds(interruptDuration);
         canInterruptClose = false;
         if (!interruptClose)
         {
             //LOSE
-            Debug.Log("Lose");
+            interruptClose = false;
             Game.Instance.PlayerLose();
             yield break;
         }
+    }
+
+    IEnumerator LaunchFight(float fightDuration)
+    {
         interruptClose = false;
-        yield return new WaitForSeconds(delay - interruptDuration);
         canFight = true;
         Game.Instance.door.SetTrigger("StartFight");
         Game.Instance.player.SetTrigger("StartFight");
