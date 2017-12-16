@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class GuitarHero : MonoBehaviour {
 
@@ -25,14 +27,21 @@ public class GuitarHero : MonoBehaviour {
 
     public float noteSpeed = 1f;
 
+    public Image imageSlot1;
+    public Image imageSlot2;
+    public Image imageSlot3;
+    public Image imageSlot4;
+
     public Sprite spriteSlot1;
     public Sprite spriteSlot2;
     public Sprite spriteSlot3;
     public Sprite spriteSlot4;
 
+    private Color spriteSlotColor;
+
     // Use this for initialization
     void Start () {
-        
+        spriteSlotColor = new Color(197f/255f, 197f/255f, 197f/255f, 1);
     }
 	
 	// Update is called once per frame
@@ -42,6 +51,7 @@ public class GuitarHero : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
+                StartCoroutine(ChangeColor(imageSlot1));
                 if (noteSlot1.Count < 0 && !noteSlot1[0])
                     Game.Instance.impatience += 3;
                 else
@@ -53,6 +63,7 @@ public class GuitarHero : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
+                StartCoroutine(ChangeColor(imageSlot2));
                 if (noteSlot2.Count < 0 && !noteSlot2[0])
                     Game.Instance.impatience += 3;
                 else
@@ -64,6 +75,7 @@ public class GuitarHero : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
+                StartCoroutine(ChangeColor(imageSlot3));
                 if (noteSlot3.Count < 0 && !noteSlot3[0])
                     Game.Instance.impatience += 3;
                 else
@@ -75,9 +87,10 @@ public class GuitarHero : MonoBehaviour {
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
+                StartCoroutine(ChangeColor(imageSlot4));
                 if (noteSlot4.Count < 0 && !noteSlot4[0])
                     Game.Instance.impatience += 3;
-                else
+                else 
                 {
                     CheckNoteTiming(4, noteSlot4[0].transform.position.y);
                     noteSlot4[0].GetComponent<Note>().DeleteNote();
@@ -87,7 +100,14 @@ public class GuitarHero : MonoBehaviour {
         }
 
     }
-    
+
+    IEnumerator ChangeColor(Image image)
+    {
+        image.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        image.color = spriteSlotColor;
+    }
+
     public void StartSale()
     {
         saleCoroutine = StartCoroutine(InitSale(2f));
@@ -122,6 +142,7 @@ public class GuitarHero : MonoBehaviour {
         switch (slot)
         {
             case 1:
+                
                 distance = Mathf.Abs(slot1.transform.position.y - posY);
                 break;
             case 2:

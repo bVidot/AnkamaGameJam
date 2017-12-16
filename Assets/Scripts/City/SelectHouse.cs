@@ -54,6 +54,7 @@ public class SelectHouse : MonoBehaviour, IPointerEnterHandler {
             }
 
             PlayerManager.Instance.houseSelected = house;
+            PlayerManager.Instance.firstPlay = false;
             SceneManager.LoadSceneAsync(2);
         }
             

@@ -44,10 +44,12 @@ public class PlayerManager : MonoBehaviour {
     public int playerCash = 0;
     public Shoes currentShoes;
     public House houseSelected;
+    public bool firstPlay = true;
 
     // Use this for initialization
     void Start () {
         currentShoes = Resources.Load("Shoes/BasicShoes") as Shoes;
+        firstPlay = true;
     }
 	
 	// Update is called once per frame
