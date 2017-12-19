@@ -100,6 +100,7 @@ public class Game : MonoBehaviour {
         fightGame.increaseValue = PlayerManager.Instance.currentShoes.resistance;
 
         saleState = SaleState.Talk;
+        door.SetTrigger("DoorLose");
         guitarHeroGame.StartSale();
     }
 
