@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Fight : MonoBehaviour {
 
@@ -19,6 +20,10 @@ public class Fight : MonoBehaviour {
     private bool FightPlayed = false;
     private bool LosePlayed = false;
     private bool AlarmPlayed = false;
+
+    private float fightDuration = 5f;
+
+    public Image fightTimer;
 
     // Use this for initialization
     void Start () {
@@ -50,7 +55,7 @@ public class Fight : MonoBehaviour {
                 Game.Instance.player.SetTrigger("StartInterrupt");
                 interruptClose = true;
                 StopCoroutine(initFightCoroutine);
-                fightCoroutine = StartCoroutine(LaunchFight(5f));
+                fightCoroutine = StartCoroutine(LaunchFight(fightDuration));
             }
         }
     }
@@ -90,10 +95,23 @@ public class Fight : MonoBehaviour {
         }
     }
 
+    IEnumerator Timer(float fightDuration)
+    {
+        float currentFightDuration = fightDuration;
+        while(currentFightDuration > 0f)
+        {
+
+            currentFightDuration -= Time.deltaTime;
+            fightTimer.fillAmount = Mathf.Max(0f, currentFightDuration / fightDuration);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
     IEnumerator LaunchFight(float fightDuration)
     {
         interruptClose = false;
         canFight = true;
+        StartCoroutine(Timer(fightDuration));
         Game.Instance.door.SetTrigger("StartFight");
         Game.Instance.player.SetTrigger("StartFight");
         yield return new WaitForSeconds(fightDuration);
